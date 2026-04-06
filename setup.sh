@@ -77,6 +77,7 @@ CLI_TOOLS=(
   ranger     # terminal file manager
   ripgrep    # fast grep (rg)
   tmux
+  python3
 )
 
 for tool in "${CLI_TOOLS[@]}"; do
