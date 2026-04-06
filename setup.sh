@@ -228,6 +228,19 @@ EOF
 fi
 
 # =============================================================================
+# GIT GLOBAL CONFIG
+# =============================================================================
+section "Git Global Config"
+
+echo ".DS_Store" >> "$HOME/.gitignore_global"
+echo ".DS_Store?" >> "$HOME/.gitignore_global"
+echo "._*" >> "$HOME/.gitignore_global"
+echo ".Spotlight-V100" >> "$HOME/.gitignore_global"
+echo ".Trashes" >> "$HOME/.gitignore_global"
+git config --global core.excludesfile "$HOME/.gitignore_global"
+ok "Global .gitignore configured"
+
+# =============================================================================
 # MACOS DEFAULTS
 # =============================================================================
 section "macOS System Preferences"
