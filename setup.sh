@@ -255,6 +255,23 @@ killall Dock Finder 2>/dev/null || true
 ok "macOS defaults applied"
 
 # =============================================================================
+# RAYCAST SCRIPTS
+# =============================================================================
+section "Raycast Scripts"
+
+SCRIPTS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/raycast-scripts"
+SYMLINK="$HOME/raycast-scripts"
+
+if [[ -L "$SYMLINK" ]]; then
+  ok "Symlink already exists at ~/raycast-scripts"
+elif [[ -d "$SCRIPTS_DIR" ]]; then
+  ln -s "$SCRIPTS_DIR" "$SYMLINK"
+  ok "Symlinked raycast-scripts → ~/raycast-scripts"
+else
+  warn "raycast-scripts folder not found next to setup.sh — skipping"
+fi
+
+# =============================================================================
 # DONE
 # =============================================================================
 echo ""
@@ -263,4 +280,8 @@ echo -e "${BOLD}${GREEN}  Setup complete!${NC}"
 echo -e "${BOLD}${GREEN}=====================================${NC}"
 echo ""
 echo -e "After install: ${YELLOW}source ~/.zshrc${NC}"
+echo ""
+echo -e "Raycast scripts are at ${YELLOW}~/raycast-scripts${NC}"
+echo -e "  → Open Raycast > Extensions > Script Commands > Add Directory"
+echo -e "    and point it to ${YELLOW}~/raycast-scripts${NC}"
 echo ""
