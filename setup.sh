@@ -123,7 +123,6 @@ GUI_APPS=(
 
   # Fonts
   font-jetbrains-mono-nerd-font
-  font-noto-sans-mono-cjk-jp
 )
 
 for app in "${GUI_APPS[@]}"; do
