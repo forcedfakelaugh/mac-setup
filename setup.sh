@@ -291,6 +291,25 @@ else
   warn "raycast-scripts folder not found next to setup.sh — skipping"
 fi
 
+# Remove Cmd+Space shortcut from Spotlight so Raycast can use it
+defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '
+  <dict>
+    <key>enabled</key><false/>
+    <key>value</key>
+    <dict>
+      <key>parameters</key>
+      <array>
+        <integer>32</integer>
+        <integer>49</integer>
+        <integer>1048576</integer>
+      </array>
+      <key>type</key>
+      <string>standard</string>
+    </dict>
+  </dict>
+'
+ok "Disabled Cmd+Space Spotlight shortcut (free for Raycast)"
+
 # =============================================================================
 # DONE
 # =============================================================================
