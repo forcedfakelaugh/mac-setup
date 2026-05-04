@@ -311,6 +311,25 @@ defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 64 '
 ok "Disabled Cmd+Space Spotlight shortcut (free for Raycast)"
 
 # =============================================================================
+# GHOSTTY CONFIG
+# =============================================================================
+section "Ghostty Config"
+
+GHOSTTY_CONFIG_DIR="$HOME/.config/ghostty"
+GHOSTTY_CONFIG_SRC="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/ghostty/config"
+
+mkdir -p "$GHOSTTY_CONFIG_DIR"
+
+if [[ -f "$GHOSTTY_CONFIG_DIR/config" ]]; then
+  ok "Ghostty config already exists — skipping"
+elif [[ -f "$GHOSTTY_CONFIG_SRC" ]]; then
+  cp "$GHOSTTY_CONFIG_SRC" "$GHOSTTY_CONFIG_DIR/config"
+  ok "Ghostty config installed"
+else
+  warn "ghostty/config not found next to setup.sh — skipping"
+fi
+
+# =============================================================================
 # DONE
 # =============================================================================
 echo ""
