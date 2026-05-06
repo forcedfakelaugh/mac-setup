@@ -121,6 +121,9 @@ GUI_APPS=(
   vlc
   transmission
 
+  # Database
+  dbeaver-community
+
   # Fonts
   font-jetbrains-mono-nerd-font
 )
@@ -133,6 +136,39 @@ for app in "${GUI_APPS[@]}"; do
     brew install --cask "$app" || warn "Failed to install $app — skipping"
   fi
 done
+
+# =============================================================================
+# DBEAVER KEYBOARD SHORTCUTS
+# Cmd+L → Focus filter bar (resultset.focus.filter)
+# Cmd+P → Open database meta-object (object.goto)
+# Stored in the Eclipse workbench prefs file as an XML string under
+# the key org.eclipse.ui.commands (M1 = Command on macOS).
+# =============================================================================
+section "DBeaver Keyboard Shortcuts"
+
+DBEAVER_PREFS_DIR="$HOME/Library/DBeaverData/workspace6/.metadata/.plugins/org.eclipse.core.runtime/.settings"
+DBEAVER_PREFS_FILE="$DBEAVER_PREFS_DIR/org.eclipse.ui.workbench.prefs"
+
+mkdir -p "$DBEAVER_PREFS_DIR"
+
+if grep -q "org.jkiss.dbeaver.core.resultset.focus.filter" "$DBEAVER_PREFS_FILE" 2>/dev/null; then
+  ok "DBeaver shortcuts already configured"
+else
+  log "Writing DBeaver keyboard shortcuts..."
+
+  KEYBINDINGS_XML='<?xml version="1.0" encoding="UTF-8"?><org.eclipse.ui.commands><keyBinding commandId="org.jkiss.dbeaver.core.resultset.focus.filter" keySequence="M1+L" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/><keyBinding commandId="org.jkiss.dbeaver.core.object.goto" keySequence="M1+P" schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"/></org.eclipse.ui.commands>'
+
+  if [[ -f "$DBEAVER_PREFS_FILE" ]]; then
+    # Remove any existing org.eclipse.ui.commands line and append the new one
+    grep -v "^org.eclipse.ui.commands=" "$DBEAVER_PREFS_FILE" > "${DBEAVER_PREFS_FILE}.tmp"
+    echo "org.eclipse.ui.commands=${KEYBINDINGS_XML}" >> "${DBEAVER_PREFS_FILE}.tmp"
+    mv "${DBEAVER_PREFS_FILE}.tmp" "$DBEAVER_PREFS_FILE"
+  else
+    printf 'eclipse.preferences.version=1\norg.eclipse.ui.commands=%s\n' "${KEYBINDINGS_XML}" > "$DBEAVER_PREFS_FILE"
+  fi
+
+  ok "DBeaver shortcuts set (Cmd+L: filter bar, Cmd+P: goto object)"
+fi
 
 # =============================================================================
 # OH MY ZSH
