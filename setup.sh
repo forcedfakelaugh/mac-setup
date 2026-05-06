@@ -208,6 +208,8 @@ fi
 section "Global NPM Packages"
 
 NPM_GLOBALS=(
+  @anthropic-ai/claude-code
+  @openai/codex
   @google/gemini-cli
 )
 
