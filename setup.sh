@@ -223,6 +223,18 @@ for pkg in "${NPM_GLOBALS[@]}"; do
 done
 
 # =============================================================================
+# UV (Python package manager)
+# =============================================================================
+section "uv"
+if command -v uv &>/dev/null; then
+  ok "Already installed — $(uv --version)"
+else
+  log "Installing uv..."
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ok "uv installed"
+fi
+
+# =============================================================================
 # WRITE .zshrc
 # =============================================================================
 section "Writing ~/.zshrc"
